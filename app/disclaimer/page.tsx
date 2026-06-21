@@ -1,0 +1,2 @@
+import { site } from '@/lib/site'; import { Card,CardContent,CardHeader,CardTitle } from '@/components/ui/card';
+export default function Disclaimer(){return <section className="container py-12"><h1 className="mb-8 text-5xl">Disclaimer</h1><div className="grid gap-4">{site.legal.disclaimer.map((i,idx)=><Card data-aos="fade-up" key={idx}><CardHeader><CardTitle>{i.title}</CardTitle></CardHeader><CardContent className="text-muted-foreground">{i.description}</CardContent></Card>)}</div></section>}
