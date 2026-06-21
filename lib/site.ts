@@ -24,7 +24,7 @@ export const site = {
     subtitle: 'Pakai endpoint Com1 untuk bot, website, tools otomatis, dan eksperimen data ringan dengan respons JSON yang rapi.',
     cta: 'Read Docs',
     secondaryCta: 'View Guide',
-    terminal: ['~ $ loading plugins....', '~ $ api/game/cek-kodam', '~ $ api/tools/json-echo', '~ $ api/upload/file-info', '~ $ all plugins loaded...', '~ $ welcome to Com1'],
+    terminal: ['~ $ COM1 Rest API', '~ $ free for use', '~ $ no apikey required', '~ $ unlimited request', '~ $ use now !'],
     code: `const res = await fetch('{DOMAIN}/api/game/cek-kodam?text=Mrchlldev')\nconst data = await res.json()\nconsole.log(data)`
   },
   stats: {
