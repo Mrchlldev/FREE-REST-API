@@ -1,25 +1,8 @@
 import axios from "axios"
 import * as cheerio from "cheerio"
-import { PluginEndpoint } from "@/lib/endpoint-types"
+import type { PluginEndpoint } from "@/lib/plugin-types"
 
-type ThreadsResult = {
-  username: string
-  name: string
-  userId: string
-  followers: string
-  following: string
-  threads: string
-  media_count: string
-  bio: string
-  external_url: string
-  is_verified: boolean
-  is_private: boolean
-  is_business: boolean
-  avatar: string
-  url: string
-}
-
-async function threadsStalk(username: string): Promise<ThreadsResult> {
+async function threadsStalk(username: string) {
   const cleanUsername = username.replace(/^@/, "").trim()
   const url = `https://www.threads.com/@${cleanUsername}`
 
@@ -59,17 +42,15 @@ async function threadsStalk(username: string): Promise<ThreadsResult> {
   const threads = threadsMatch ? threadsMatch[1] : "0"
 
   const fakeId = Buffer.from(cleanUsername).toString("hex").slice(0, 12)
-  const estFollowing = Math.floor(parseFloat(followers.replace(",", ".")) * 0.3) || 0
-  const estMedia = Number.parseInt(threads) || 0
 
   return {
     username: cleanUsername,
     name,
     userId: fakeId,
     followers,
-    following: estFollowing.toString(),
+    following: "0",
     threads,
-    media_count: estMedia.toString(),
+    media_count: Number.parseInt(threads) || 0,
     bio,
     external_url: "-",
     is_verified: false,
@@ -84,23 +65,23 @@ const endpoint: PluginEndpoint = {
   title: "Threads Stalk",
   slug: "threads",
   category: "stalk",
+  icon: "UserSearch",
   method: "GET",
   path: "/api/stalk/threads",
   description: "Mengambil informasi publik akun Threads berdasarkan username.",
   tags: ["threads", "stalk", "profile"],
-  responseType: "json",
   parameters: [
     {
       name: "username",
-      type: "text",
+      type: "string",
       required: true,
       description: "Username Threads tanpa @",
-      example: "nagasdenson",
+      example: "mrchllabimanyu",
     },
   ],
 
-  async run({ request }) {
-    const username = request.nextUrl.searchParams.get("username")
+  async run(params) {
+    const username = params.username?.trim()
 
     if (!username) {
       return {
