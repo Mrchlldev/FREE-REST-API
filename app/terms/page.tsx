@@ -1,0 +1,3 @@
+import { site } from '@/lib/site'; import { Card,CardContent,CardHeader,CardTitle } from '@/components/ui/card';
+export default function Terms(){return <Legal title="Terms" data={site.legal.terms}/>}
+function Legal({title,data}:{title:string;data:{title:string;description:string}[]}){return <section className="container py-12"><h1 className="mb-8 text-5xl">{title}</h1><div className="grid gap-4">{data.map((i,idx)=><Card data-aos="fade-up" key={idx}><CardHeader><CardTitle>{i.title}</CardTitle></CardHeader><CardContent className="text-muted-foreground">{i.description}</CardContent></Card>)}</div></section>}
