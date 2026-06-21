@@ -1,0 +1,4 @@
+import { NextRequest, NextResponse } from 'next/server'; import { findPlugin } from '@/lib/generated-plugins'
+type Ctx={params:Promise<{category:string;endpoint:string}>}
+export async function GET(req:NextRequest,ctx:Ctx){try{const params=await ctx.params; const plugin=findPlugin(params.category,params.endpoint); if(!plugin) return NextResponse.json({status:false,code:404,message:'Endpoint not found'},{status:404}); const input=Object.fromEntries(req.nextUrl.searchParams.entries()); const result=await plugin.run(input); const status=result?.code && result.code>=400?result.code:200; return NextResponse.json(result,{status})}catch(e){return NextResponse.json({status:false,code:500,message:e instanceof Error?e.message:'Internal Server Error'},{status:500})}}
+export async function POST(req:NextRequest,ctx:Ctx){return GET(req,ctx)}

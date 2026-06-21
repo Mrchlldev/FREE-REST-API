@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Poppins:wght@300;400;500;600;700;800&family=Source+Code+Pro:wght@400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root { --background: 0 0% 100%; --foreground: 0 0% 8%; --card: 0 0% 100%; --card-foreground: 0 0% 8%; --primary: 0 84% 55%; --primary-foreground: 0 0% 100%; --secondary: 0 0% 97%; --secondary-foreground: 0 0% 8%; --muted: 0 0% 96%; --muted-foreground: 0 0% 42%; --accent: 0 86% 96%; --accent-foreground: 0 84% 38%; --destructive: 0 84% 60%; --destructive-foreground: 0 0% 98%; --border: 0 0% 90%; --input: 0 0% 90%; --ring: 0 84% 55%; --radius: 1rem; }
+  .dark { --background: 0 0% 5%; --foreground: 30 25% 96%; --card: 0 0% 8%; --card-foreground: 30 25% 96%; --primary: 28 95% 55%; --primary-foreground: 0 0% 6%; --secondary: 0 0% 12%; --secondary-foreground: 30 25% 96%; --muted: 0 0% 12%; --muted-foreground: 30 10% 68%; --accent: 28 95% 14%; --accent-foreground: 28 95% 65%; --destructive: 0 75% 55%; --destructive-foreground: 0 0% 98%; --border: 0 0% 16%; --input: 0 0% 16%; --ring: 28 95% 55%; }
+  * { @apply border-border; }
+  body { @apply bg-background text-foreground font-body; font-family: 'Poppins', sans-serif; }
+  h1,h2,h3,h4,h5,h6 { @apply font-title font-extrabold tracking-tight; font-family: 'Montserrat', sans-serif; }
+  html { scroll-behavior: smooth; }
+}
+
+.container { @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8; }
+.gradient-text { @apply bg-gradient-to-r from-primary via-red-500 to-primary bg-clip-text text-transparent dark:via-orange-300; }
+.glass-card { @apply border bg-card/70 shadow-2xl shadow-primary/5 backdrop-blur-xl; }
+.modern-card { @apply rounded-3xl border bg-card/80 shadow-xl shadow-primary/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/10; }
+.soft-grid { background-image: radial-gradient(hsl(var(--primary) / .16) 1px, transparent 1px); background-size: 26px 26px; }
+.code { @apply overflow-x-auto rounded-2xl border bg-secondary/60 p-4 text-sm; font-family: 'Source Code Pro', monospace; }
+.code-lines { counter-reset: line; font-family: 'Source Code Pro', monospace; }
+.code-lines .line { @apply block min-h-5 pr-4; counter-increment: line; }
+.code-lines .line::before { content: counter(line); @apply mr-4 inline-block w-8 select-none border-r pr-3 text-right text-muted-foreground; }
+.animate-page-in { animation: page-in .45s ease both; }
+@keyframes page-in { from { opacity: 0; transform: translateY(16px) scale(.99); filter: blur(8px); } to { opacity: 1; transform: none; filter: blur(0); } }
+[data-aos='modern-up'] { opacity: 0; transform: translateY(28px) scale(.98); filter: blur(10px); transition-property: opacity, transform, filter; }
+[data-aos='modern-up'].aos-animate { opacity: 1; transform: none; filter: blur(0); }

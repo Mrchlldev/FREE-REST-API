@@ -1,0 +1,8 @@
+'use client'; import * as DialogPrimitive from '@radix-ui/react-dialog'; import { X } from 'lucide-react'; import { cn } from '@/lib/utils'
+export const Dialog=DialogPrimitive.Root; export const DialogTrigger=DialogPrimitive.Trigger; export const DialogClose=DialogPrimitive.Close;
+export const DialogPortal=DialogPrimitive.Portal
+export const DialogOverlay=({className,...p}:React.ComponentProps<typeof DialogPrimitive.Overlay>)=><DialogPrimitive.Overlay className={cn('fixed inset-0 z-50 bg-background/60 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out',className)} {...p}/>
+export const DialogContent=({className,children,...p}:React.ComponentProps<typeof DialogPrimitive.Content>)=><DialogPortal><DialogOverlay/><DialogPrimitive.Content className={cn('fixed left-[50%] top-[50%] z-50 grid w-[92vw] max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 rounded-xl border bg-card p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=open]:zoom-in-95',className)} {...p}>{children}<DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 hover:opacity-100"><X className="h-4 w-4"/></DialogPrimitive.Close></DialogPrimitive.Content></DialogPortal>
+export const DialogHeader=({className,...p}:React.HTMLAttributes<HTMLDivElement>)=><div className={cn('flex flex-col space-y-1.5 text-center sm:text-left',className)} {...p}/>
+export const DialogTitle=({className,...p}:React.ComponentProps<typeof DialogPrimitive.Title>)=><DialogPrimitive.Title className={cn('text-lg font-semibold',className)} {...p}/>
+export const DialogDescription=({className,...p}:React.ComponentProps<typeof DialogPrimitive.Description>)=><DialogPrimitive.Description className={cn('text-sm text-muted-foreground',className)} {...p}/>
