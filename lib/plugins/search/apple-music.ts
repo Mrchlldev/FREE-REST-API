@@ -105,24 +105,6 @@ const endpoint: PluginEndpoint = {
     },
   ],
 
-  example: {
-    status: true,
-    author: "COM1 - Mrchlldev",
-    code: 200,
-    result: {
-      total: 1,
-      results: [
-        {
-          title: "Let It Happen",
-          artist: "Tame Impala",
-          explicit: false,
-          cover: "https://example.com/cover.jpg",
-          url: "https://music.apple.com/us/song/example",
-        },
-      ],
-    },
-  },
-
   async run(params) {
     const query = String(params.query || params.q || "").trim()
     const limitRaw = String(params.limit || "5").trim()
