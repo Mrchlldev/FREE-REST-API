@@ -28,7 +28,9 @@ const client = axios.create({
 
 async function appleMusicSearch(query: string, limit = 5) {
   const { data } = await client.get<string>("/us/search", {
-    params: { term: query },
+    params: {
+      term: query,
+    },
   })
 
   const $ = cheerio.load(data)
@@ -78,27 +80,27 @@ async function appleMusicSearch(query: string, limit = 5) {
 const endpoint: PluginEndpoint = {
   title: "Apple Music Search",
   slug: "apple-music",
-  path: "/api/search/apple",
   category: "search",
   icon: "Music",
   method: "GET",
+  bodyType: "query",
+  path: "/api/search/apple-music",
   description: "Mencari lagu di Apple Music berdasarkan query.",
   tags: ["search", "apple-music", "music", "song"],
-  isPremium: false,
 
   parameters: [
     {
       name: "query",
-      type: "string",
+      type: "text",
       required: true,
-      description: "Judul lagu atau nama artis yang ingin dicari",
+      description: "Judul lagu atau nama artis yang ingin dicari.",
       example: "Tame Impala",
     },
     {
       name: "limit",
       type: "number",
       required: false,
-      description: "Jumlah hasil yang ingin ditampilkan, default 5, maksimal 20",
+      description: "Jumlah hasil yang ingin ditampilkan. Default 5, maksimal 20.",
       example: "5",
     },
   ],
@@ -125,7 +127,10 @@ const endpoint: PluginEndpoint = {
     const query = String(params.query || params.q || "").trim()
     const limitRaw = String(params.limit || "5").trim()
 
-    const limit = Math.min(Math.max(Number(limitRaw || 5), 1), 20)
+    const limitNumber = Number(limitRaw)
+    const limit = Number.isFinite(limitNumber)
+      ? Math.min(Math.max(limitNumber, 1), 20)
+      : 5
 
     if (!query) {
       return {
@@ -135,13 +140,24 @@ const endpoint: PluginEndpoint = {
       }
     }
 
-    const result = await appleMusicSearch(query, limit)
+    try {
+      const result = await appleMusicSearch(query, limit)
 
-    return {
-      status: true,
-      author: "COM1 - Mrchlldev",
-      code: 200,
-      result,
+      return {
+        status: true,
+        author: "COM1 - Mrchlldev",
+        code: 200,
+        result,
+      }
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Internal Server Error"
+
+      return {
+        status: false,
+        code: 500,
+        message,
+      }
     }
   },
 }
